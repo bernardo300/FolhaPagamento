@@ -3,7 +3,7 @@ Simples projeto folha de pagamento curso extensao iTDD
 Crie suas tabelas com as queries abaixo
 ```javascript
 CREATE TABLE funcionarios(
-    id INTEGER NOT NULL,
+     id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
      nome VARCHAR(30) NOT NULL,
      funcao VARCHAR(12),
      salario FLOAT
