@@ -1,7 +1,7 @@
 # FolhaPagamento
 Simples projeto folha de pagamento curso extensao iTDD
 Crie suas tabelas com as queries abaixo
-
+```javascript
 CREATE TABLE funcionarios(
     id INTEGER NOT NULL,
      nome VARCHAR(30) NOT NULL,
@@ -20,3 +20,5 @@ CREATE TABLE gratificacoes(
     INSERT INTO gratificacoes(id_funcionario, tipo, valor) VALUES(1,'Desempenho', 40);
     INSERT INTO gratificacoes(id_funcionario, tipo, valor) VALUES(2,'Hora Extra', 40);
     INSERT INTO gratificacoes(id_funcionario, tipo, valor) VALUES(3,'Desempenho', 25);
+    
+```
