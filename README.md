@@ -1,5 +1,5 @@
 # FolhaPagamento
-Simples projeto folha de pagamento curso extensao iTDD
+Simples projeto Folha de pagamento com CRUD Mysql. Curso extensao iTDD.
 Crie suas tabelas com as queries abaixo
 ```javascript
 CREATE TABLE funcionarios(

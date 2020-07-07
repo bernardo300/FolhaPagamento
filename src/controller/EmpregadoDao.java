@@ -10,33 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-
-/*
-CREATE TABLE funcionarios(
-    id INTEGER NOT NULL,
-     nome VARCHAR(30) NOT NULL,
-     funcao VARCHAR(12),
-     salario FLOAT
-     );
-CREATE TABLE gratificacoes(
-     id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-     id_funcionario INTEGER NOT NULL,
-     tipo VARCHAR(12),
-     valor FLOAT
-     );
-     INSERT INTO funcionarios(nome, funcao, salario) VALUES('Joao','Gerente', 4000);
-
-    INSERT INTO funcionarios(nome, funcao, salario) VALUES('Pedro','Funcionario', 2500);
-
-    INSERT INTO funcionarios(nome, funcao, salario) VALUES('Henrique','Funcionario', 2500);
-
-    INSERT INTO gratificacoes(id_funcionario, tipo, valor) VALUES(1,'Desempenho', 40);
-
-    INSERT INTO gratificacoes(id_funcionario, tipo, valor) VALUES(2,'Hora Extra', 40);
-
-    INSERT INTO gratificacoes(id_funcionario, tipo, valor) VALUES(3,'Desempenho', 25);
- */
-
 public class EmpregadoDao {
 
     private final String INSERT = "INSERT INTO funcionarios (nome, funcao, salario) VALUES (?,?,?)";
@@ -227,4 +200,5 @@ public class EmpregadoDao {
         }
         return empregado;
     }
+
 }

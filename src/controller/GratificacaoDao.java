@@ -1,8 +1,6 @@
 package controller;
 
-import model.Gratificacao;
-import model.GratificacaoDesempenho;
-import model.GratificacaoHoraExtra;
+import model.*;
 import util.Conexao;
 
 import javax.swing.*;
@@ -164,16 +162,22 @@ public class GratificacaoDao {
         return gratificacao;
     }
 
-    public List<Gratificacao> getGratificacaoByFuncionario(int idFuncionario) {
+    /**
+     * @param empregado com id setado
+     * @return O contracheque do empregado
+     * @exception NullPointerException caso o id do usuario seja null
+     */
+    public ContraCheque getContraChequeByFuncionario(Empregado empregado) {
         Connection conn = null;
         PreparedStatement pstm = null;
         ResultSet rs = null;
         List<Gratificacao> gratificacaos = new ArrayList<>();
+        ContraCheque contraCheque = new ContraCheque();
 
         try {
             conn = Conexao.getConexao();
             pstm = conn.prepareStatement(LISTBYIDFUNCIONARIO);
-            pstm.setInt(1, idFuncionario);
+            pstm.setInt(1, empregado.getId());
             rs = pstm.executeQuery();
             while (rs.next()) {
                 Gratificacao gratificacao = null;
@@ -195,10 +199,33 @@ public class GratificacaoDao {
                     gratificacaos.add(gratificacao);
                 }
             }
+
+            contraCheque = montarContracheque(empregado,gratificacaos);
+
             Conexao.fechaConexao(conn, pstm, rs);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao listar gratificaoa" + e.getMessage());
         }
-        return gratificacaos;
+        return contraCheque;
+    }
+
+    /**
+     * @param empregado Recebe um empregado
+     * @param listGratificaoec Recebe uma lisat de gratificaoes
+     * @return Contra Cheque do Mempregado
+     */
+    private ContraCheque montarContracheque(Empregado empregado,List<Gratificacao>listGratificaoec){
+        ContraCheque c = new ContraCheque();
+        c.setEmpregado(empregado);
+        c.setSalarioBase(empregado.getSalario());
+        c.setGratificacaos(listGratificaoec);
+
+        float total = 0;
+        for (Gratificacao g:listGratificaoec) {
+            total += g.getValor();
+        }
+        c.setValorGratificacoes(total);
+        c.setSalarioMensal(empregado.getSalario() + total);
+        return  c;
     }
 }

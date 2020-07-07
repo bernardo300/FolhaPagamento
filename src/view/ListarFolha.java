@@ -2,6 +2,7 @@ package view;
 
 import controller.EmpregadoDao;
 import controller.GratificacaoDao;
+import model.ContraCheque;
 import model.Empregado;
 import model.Folha;
 import model.Gratificacao;
@@ -86,10 +87,10 @@ public class ListarFolha extends JFrame {
                         EmpregadoDao daoF = new EmpregadoDao();
                         GratificacaoDao daoG = new GratificacaoDao();
                         Empregado empregado = daoF.getFuncionarioById(idFuncionario);
-                        List<Gratificacao>list = daoG.getGratificacaoByFuncionario(empregado.getId());
+                        ContraCheque contraCheque = daoG.getContraChequeByFuncionario(empregado);
 
                         JOptionPane.showMessageDialog(ListarFolha.this,
-                                        montarContracheque(list,empregado),"Contracheque",JOptionPane.INFORMATION_MESSAGE);
+                                        contraCheque,"Contra cheque",JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         JOptionPane.showMessageDialog(ListarFolha.this,
                                 "É necesário selecionar uma linha.");
@@ -112,7 +113,6 @@ public class ListarFolha extends JFrame {
         stringBuilder.append("Total Gratificacoes :".toUpperCase()+toG + "\n");
         stringBuilder.append("Salario mensal  :".toUpperCase()+(empregado.getSalario() + toG )+ "\n");
         return stringBuilder.toString();
-
     }
 
     public static void pesquisar(DefaultTableModel modelo) {
