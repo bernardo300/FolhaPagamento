@@ -19,6 +19,7 @@ public class GratificacaoDao {
     private final String UPDATE = "UPDATE gratificacoes SET tipo=? , valor=? WHERE id=?";
     private final String LIST = "SELECT * FROM gratificacoes";
     private final String LISTBYID = "SELECT * FROM gratificacoes WHERE id=?";
+    private final String LISTBYIDFUNCIONARIO = "SELECT * FROM gratificacoes WHERE id_funcionario=?";
 
     public void inserir(Gratificacao gratificacao,int idFuncionario) {
         if (gratificacao != null) {
@@ -128,7 +129,7 @@ public class GratificacaoDao {
         return gratificacaos;
     }
 
-    public Gratificacao getGratificacaoById(int id) {
+    public Gratificacao getGratificacaoById(int idGratificacao) {
         Connection conn = null;
         PreparedStatement pstm = null;
         ResultSet rs = null;
@@ -137,7 +138,7 @@ public class GratificacaoDao {
         try {
             conn = Conexao.getConexao();
             pstm = conn.prepareStatement(LISTBYID);
-            pstm.setInt(1, id);
+            pstm.setInt(1, idGratificacao);
             rs = pstm.executeQuery();
             while (rs.next()) {
                 String tipo = rs.getString("tipo");
@@ -161,5 +162,43 @@ public class GratificacaoDao {
             JOptionPane.showMessageDialog(null, "Erro ao listar gratificaoa" + e.getMessage());
         }
         return gratificacao;
+    }
+
+    public List<Gratificacao> getGratificacaoByFuncionario(int idFuncionario) {
+        Connection conn = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        List<Gratificacao> gratificacaos = new ArrayList<>();
+
+        try {
+            conn = Conexao.getConexao();
+            pstm = conn.prepareStatement(LISTBYIDFUNCIONARIO);
+            pstm.setInt(1, idFuncionario);
+            rs = pstm.executeQuery();
+            while (rs.next()) {
+                Gratificacao gratificacao = null;
+                String tipo = rs.getString("tipo");
+                if (tipo.equals("Desempenho")){
+                    gratificacao = new GratificacaoDesempenho();
+                    gratificacao.setId(rs.getInt("id"));
+                    gratificacao.setTipo(rs.getString("tipo"));
+                    gratificacao.setIdFuncionario(rs.getInt("id_funcionario"));
+                    gratificacao.setValor(rs.getFloat("valor"));
+                    gratificacaos.add(gratificacao);
+
+                }else if(tipo.equals("Hora Extra")){
+                    gratificacao = new GratificacaoHoraExtra();
+                    gratificacao.setId(rs.getInt("id"));
+                    gratificacao.setTipo(rs.getString("tipo"));
+                    gratificacao.setIdFuncionario(rs.getInt("id_funcionario"));
+                    gratificacao.setValor(rs.getFloat("valor"));
+                    gratificacaos.add(gratificacao);
+                }
+            }
+            Conexao.fechaConexao(conn, pstm, rs);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao listar gratificaoa" + e.getMessage());
+        }
+        return gratificacaos;
     }
 }

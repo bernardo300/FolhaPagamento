@@ -46,7 +46,7 @@ public class EmpregadoDao {
     private final String LISTBYID = "SELECT * FROM funcionarios WHERE id=?";
     private final String LISTFOLHA ="SELECT f.id AS codF, f.nome, f.funcao, f.salario, COUNT(g.id) as quantGratificacao, SUM(g.valor) As gratificacao\n" +
                                     "FROM gratificacoes as g\n" +
-                                    "INNER JOIN funcionarios as f\n" +
+                                    "RIGHT JOIN funcionarios as f\n" +
                                     "ON f.id = g.id_funcionario\n" +
                                     "GROUP BY f.id\n" +
                                     "ORDER BY f.nome";
@@ -177,6 +177,7 @@ public class EmpregadoDao {
             while (rs.next()) {
                 Folha folha = new Folha();
 
+                folha.setIdFuncionario(rs.getInt("codF"));
                 folha.setNomeEmpregado(rs.getString("nome"));
                 folha.setFuncaoEmpregado(rs.getString("funcao"));
                 folha.setSalarioBase(rs.getFloat("salario"));
@@ -184,7 +185,6 @@ public class EmpregadoDao {
                 folha.setValorGratificacoes(rs.getFloat("gratificacao"));
                 folha.setSalarioMensal(folha.getSalarioBase() + folha.getValorGratificacoes());
                 folhas.add(folha);
-
 
             }
             Conexao.fechaConexao(conn, pstm, rs);

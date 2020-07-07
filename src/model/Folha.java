@@ -7,6 +7,15 @@ public class Folha {
     private float salarioMensal;
     private String nomeEmpregado;
     private String funcaoEmpregado;
+    private int idFuncionario;
+
+    public int getIdFuncionario() {
+        return idFuncionario;
+    }
+
+    public void setIdFuncionario(int idFuncionario) {
+        this.idFuncionario = idFuncionario;
+    }
 
     public String getNomeEmpregado() {
         return nomeEmpregado;
